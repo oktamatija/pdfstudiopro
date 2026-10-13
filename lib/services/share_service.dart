@@ -14,6 +14,19 @@ class ShareService {
     return file;
   }
 
+  /// Direct share of an existing file on disk (WhatsApp, Mail, etc.)
+  static Future<ShareResult> shareExistingFile({
+    required String filePath,
+    required String fileName,
+  }) async {
+    final xFile = XFile(filePath, mimeType: 'application/pdf', name: fileName);
+    return await Share.shareXFiles(
+      [xFile],
+      subject: 'Document: $fileName',
+      text: 'Sharing document "$fileName" via PDF Studio Pro.',
+    );
+  }
+
   /// Universal Android Sharesheet (Supports WhatsApp, WA Business, Gmail, Quick Share, Bluetooth, etc.)
   static Future<ShareResult> shareDocument({
     required Uint8List pdfBytes,
